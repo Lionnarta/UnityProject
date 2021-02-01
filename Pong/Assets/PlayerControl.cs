@@ -22,6 +22,9 @@ public class PlayerControl : MonoBehaviour
     // Score
     private int score;
 
+    // Bom
+    private bool bomStat = false;
+
     // Debug
     // Last contact point
     private ContactPoint2D lastContactPoint;
@@ -101,5 +104,15 @@ public class PlayerControl : MonoBehaviour
         {
             lastContactPoint = collision.GetContact(0);
         }
+    }
+
+    public void ChangeBomStat(bool bomBool)
+    {
+        bomStat = bomBool;
+    }
+
+    public bool BomStat
+    {
+        get { return bomStat; }
     }
 }

@@ -35,5 +35,12 @@ public class SideWall : MonoBehaviour
                 anotherCollider.gameObject.SendMessage("RestartGame", 2.0f, SendMessageOptions.RequireReceiver);
             }
         }
+        if(anotherCollider.name == "FireBall")
+        {
+            if (player.Score < gameManager.maxScore)
+            {
+                anotherCollider.gameObject.SendMessage("RestartGame", 2.0f, SendMessageOptions.RequireReceiver);
+            }
+        }
     }
 }

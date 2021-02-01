@@ -17,6 +17,10 @@ public class GameManager : MonoBehaviour
     private Rigidbody2D ballRigidbody;
     private CircleCollider2D ballCollider;
 
+    public FireBallControl fireball;
+    private Rigidbody2D fireballRigidbody;
+    private CircleCollider2D fireballCollider;
+
     // Max score
     public int maxScore;
 
@@ -31,6 +35,8 @@ public class GameManager : MonoBehaviour
         player2Rigidbody = player2.GetComponent<Rigidbody2D>();
         ballRigidbody = ball.GetComponent<Rigidbody2D>();
         ballCollider = ball.GetComponent<CircleCollider2D>();
+        fireballRigidbody = fireball.GetComponent<Rigidbody2D>();
+        fireballCollider = fireball.GetComponent<CircleCollider2D>();
     }
 
     // Update is called once per frame
@@ -52,6 +58,7 @@ public class GameManager : MonoBehaviour
             player2.ResetScore();
 
             ball.SendMessage("RestartGame", 0.5f, SendMessageOptions.RequireReceiver);
+            fireball.SendMessage("RestartGame", 0.5f, SendMessageOptions.RequireReceiver);
         }
 
         // Player 1 win
@@ -59,10 +66,29 @@ public class GameManager : MonoBehaviour
         {
             GUI.Label(new Rect(Screen.width / 2 - 150, Screen.height / 2 - 10, 2000, 1000), "PLAYER ONE WINS");
             ball.SendMessage("RestartGame", 0.5f, SendMessageOptions.RequireReceiver);
-        }else if(player2.Score == maxScore)
+            fireball.SendMessage("RestartGame", 0.5f, SendMessageOptions.RequireReceiver);
+        }
+        else if(player2.Score == maxScore)
         {
             GUI.Label(new Rect(Screen.width / 2 + 30, Screen.height / 2 - 10, 2000, 1000), "PLAYER TWO WINS");
             ball.SendMessage("RestartGame", 0.5f, SendMessageOptions.RequireReceiver);
+            fireball.SendMessage("RestartGame", 0.5f, SendMessageOptions.RequireReceiver);
+        }
+
+        // Bom
+        if (player1.BomStat)
+        {
+            GUI.Label(new Rect(Screen.width / 2 + 30, Screen.height / 2 - 10, 2000, 1000), "PLAYER TWO WINS");
+            ball.SendMessage("RestartGame", 0.5f, SendMessageOptions.RequireReceiver);
+            fireball.SendMessage("RestartGame", 0.5f, SendMessageOptions.RequireReceiver);
+            player2.ChangeBomStat(false);
+        }
+        else if (player2.BomStat)
+        {
+            GUI.Label(new Rect(Screen.width / 2 - 150, Screen.height / 2 - 10, 2000, 1000), "PLAYER ONE WINS");
+            ball.SendMessage("RestartGame", 0.5f, SendMessageOptions.RequireReceiver);
+            fireball.SendMessage("RestartGame", 0.5f, SendMessageOptions.RequireReceiver);
+            player1.ChangeBomStat(false);
         }
 
         // Debug window toggle
